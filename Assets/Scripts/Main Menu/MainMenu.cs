@@ -5,12 +5,16 @@ using UnityEngine;
 
 public class MainMenu : MonoBehaviour
 {
-    [SerializeField] private float _spawnDelay = 0.05f;
-    [SerializeField] private int _spawnAmountOnEachDelay = 5;
-    [SerializeField] private GameObject[] _startSpawnRandomly;
+    [BoxGroup("Start Spawn"), SerializeField] private float _spawnDelay = 0.05f;
+    [BoxGroup("Start Spawn"), SerializeField] private int _spawnAmountOnEachDelay = 5;
+    [BoxGroup("Start Spawn"), SerializeField] private GameObject[] _startSpawnRandomly;
+
+    [BoxGroup("Canvas"), SerializeField] private GameObject _canvas;
+    [BoxGroup("Canvas"), SerializeField] private float _delaySpawnCanvas = 3f;
 
     void Start() {
         StartCoroutine(StartMenuCoroutine());
+        StartCoroutine(DelaySpawnCanvasCoroutine());
     }
 
     [Button]
@@ -70,5 +74,13 @@ public class MainMenu : MonoBehaviour
 
             yield return new WaitForSeconds(_spawnDelay);
         }
+    }
+
+    private IEnumerator DelaySpawnCanvasCoroutine() {
+        _canvas.SetActive(false);
+
+        yield return new WaitForSeconds(_delaySpawnCanvas);
+
+        _canvas.SetActive(true);
     }
 }

@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,13 +7,17 @@ public class ObjectFollowsCamera : MonoBehaviour
 {
     [SerializeField] private Transform _middlePoint;
     [SerializeField] private float _moveRange = 3.5f;
-
-    public Vector3 current;
-    public Vector3 mouse;
+    [SerializeField] private bool _convertCurrentToScreenSpace;
+    [ShowInInspector, ReadOnly] private Vector3 current;
+    [ShowInInspector, ReadOnly] private Vector3 mouse;
 
     private void LateUpdate() {
         current = _middlePoint.position;
         mouse = Input.mousePosition;
+
+        if (_convertCurrentToScreenSpace) {
+            current = Camera.main.WorldToScreenPoint(current);
+        }
 
         Vector3 direction = (mouse - current).normalized;
 

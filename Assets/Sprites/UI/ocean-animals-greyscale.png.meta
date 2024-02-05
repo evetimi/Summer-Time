@@ -1,0 +1,445 @@
+fileFormatVersion: 2
+guid: 485cd18dddbdd9348a5a2489e6a74d8b
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: ocean-animals-greyscale_0
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 1968
+        width: 350
+        height: 287
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba5f118635c4c8f45888146c69fe3e63
+      internalID: 1622792739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ocean-animals-greyscale_1
+      rect:
+        serializedVersion: 2
+        x: 494
+        y: 2023
+        width: 410
+        height: 232
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1dfa0e5f33463c541bf98d5720beed08
+      internalID: -1130854343
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ocean-animals-greyscale_2
+      rect:
+        serializedVersion: 2
+        x: 1109
+        y: 1776
+        width: 444
+        height: 406
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 753bf92fc266bf240916196c18bbf69c
+      internalID: -745160562
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ocean-animals-greyscale_3
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 1453
+        width: 913
+        height: 434
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 77e0a57e2665775439fa309147a11d9b
+      internalID: 1319850874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ocean-animals-greyscale_9
+      rect:
+        serializedVersion: 2
+        x: 1069
+        y: 1183
+        width: 1262
+        height: 516
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e697815093d12d94cb93269a35a4f1e9
+      internalID: -1014885504
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ocean-animals-greyscale_12
+      rect:
+        serializedVersion: 2
+        x: 73
+        y: 950
+        width: 405
+        height: 416
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ea86fd53a0f2314a92fcbb977e8eada
+      internalID: -589702176
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ocean-animals-greyscale_13
+      rect:
+        serializedVersion: 2
+        x: 603
+        y: 951
+        width: 367
+        height: 402
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c961b677eaa0f440a7e3d98d846def9
+      internalID: -1968687642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ocean-animals-greyscale_14
+      rect:
+        serializedVersion: 2
+        x: 1081
+        y: 399
+        width: 722
+        height: 721
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7e22d8bbeb6edbc4f87d68af8a20fc38
+      internalID: -1701950242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ocean-animals-greyscale_15
+      rect:
+        serializedVersion: 2
+        x: 1972
+        y: 282
+        width: 919
+        height: 903
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce2ae1040ac3d4c468380bb0b78e4a3d
+      internalID: 1546993497
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ocean-animals-greyscale_17
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 233
+        width: 444
+        height: 549
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7ea22b9e2921160428ba21ae8dedabfd
+      internalID: -621830157
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ocean-animals-greyscale_18
+      rect:
+        serializedVersion: 2
+        x: 553
+        y: 503
+        width: 392
+        height: 297
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9f703d5a0013ec4288197c77c3d8bce
+      internalID: -883292165
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ocean-animals-greyscale_27
+      rect:
+        serializedVersion: 2
+        x: 543
+        y: 268
+        width: 436
+        height: 166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1716f74777085384aa53e7a511ce9d2d
+      internalID: -1155761063
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ocean-animals-greyscale_31
+      rect:
+        serializedVersion: 2
+        x: 566
+        y: 0
+        width: 410
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 360da741af0bb404083072e5f42e2283
+      internalID: 138258762
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      ocean-animals-greyscale_0: 1622792739
+      ocean-animals-greyscale_1: -1130854343
+      ocean-animals-greyscale_10: -1093796925
+      ocean-animals-greyscale_11: 1187097110
+      ocean-animals-greyscale_12: -589702176
+      ocean-animals-greyscale_13: -1968687642
+      ocean-animals-greyscale_14: -1701950242
+      ocean-animals-greyscale_15: 1546993497
+      ocean-animals-greyscale_16: 2142288056
+      ocean-animals-greyscale_17: -621830157
+      ocean-animals-greyscale_18: -883292165
+      ocean-animals-greyscale_19: -277720014
+      ocean-animals-greyscale_2: -745160562
+      ocean-animals-greyscale_20: -309369861
+      ocean-animals-greyscale_21: -1370632808
+      ocean-animals-greyscale_22: -849771115
+      ocean-animals-greyscale_23: 318484736
+      ocean-animals-greyscale_24: 962671415
+      ocean-animals-greyscale_25: -160692381
+      ocean-animals-greyscale_26: 1294024763
+      ocean-animals-greyscale_27: -1155761063
+      ocean-animals-greyscale_28: 1330084619
+      ocean-animals-greyscale_29: 737682021
+      ocean-animals-greyscale_3: 1319850874
+      ocean-animals-greyscale_30: 1200266479
+      ocean-animals-greyscale_31: 138258762
+      ocean-animals-greyscale_4: 835360300
+      ocean-animals-greyscale_5: 444942018
+      ocean-animals-greyscale_6: 1054656253
+      ocean-animals-greyscale_7: 316926516
+      ocean-animals-greyscale_8: -2006501818
+      ocean-animals-greyscale_9: -1014885504
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

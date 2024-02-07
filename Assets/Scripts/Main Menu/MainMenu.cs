@@ -13,6 +13,7 @@ public class MainMenu : MonoBehaviour
     [BoxGroup("Canvas"), SerializeField] private float _delaySpawnCanvas = 3f;
 
     void Start() {
+        PlayerData.Level = 4;
         StartCoroutine(StartMenuCoroutine());
         StartCoroutine(DelaySpawnCanvasCoroutine());
     }

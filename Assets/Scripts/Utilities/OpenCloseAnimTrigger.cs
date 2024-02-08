@@ -9,6 +9,7 @@ public class OpenCloseAnimTrigger : MonoBehaviour
     private bool TriggType => triggerType == TriggerType.Trigger;
 
     [BoxGroup("Properties"), SerializeField] private Animator _anim;
+    [BoxGroup("Properties")] public bool setActiveWhenEnable = true;
     [BoxGroup("Properties")] public TriggerType triggerType;
     [BoxGroup("Properties"), ShowIf(nameof(BoolType))] public string boolName = "enabled";
     [BoxGroup("Properties"), ShowIf(nameof(TriggType))] public string triggerOnName = "open";
@@ -24,6 +25,12 @@ public class OpenCloseAnimTrigger : MonoBehaviour
     }
 
     public void Open() {
+        Debug.Log($"Open {name}");
+
+        if (setActiveWhenEnable) {
+            gameObject.SetActive(true);
+        }
+
         if (BoolType) {
             _anim.SetBool(boolName, true);
         } else if (TriggType) {
@@ -32,6 +39,8 @@ public class OpenCloseAnimTrigger : MonoBehaviour
     }
 
     public void Close() {
+        Debug.Log($"Close {name}");
+
         if (BoolType) {
             _anim.SetBool(boolName, false);
         } else if (TriggType) {

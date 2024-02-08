@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 1
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 75435eddd9f417a45a9144a2bfa661d2, type: 2}
   m_sharedMaterial: {fileID: -7790325712894614240, guid: 75435eddd9f417a45a9144a2bfa661d2, type: 2}
@@ -92,7 +92,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 120
+  m_fontSize: 18
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -203,7 +203,7 @@ MonoBehaviour:
   m_Texture: {fileID: 2800000, guid: bd10f56e07898fe43a834d3a55216cf8, type: 3}
   m_UVRect:
     serializedVersion: 2
-    x: 758.5784
+    x: 761.36755
     y: 0
     width: 1
     height: 1
@@ -751,3 +751,5 @@ MonoBehaviour:
   _isLocked: 0
   _greyscaleButtonSprite: {fileID: 21300000, guid: b092605055bd6a14a9da90ac3ecd5d17, type: 3}
   _chainPrefab: {fileID: 2021667766555231422, guid: 496d052f384b2a04dadeb321731a7536, type: 3}
+  _levelText: {fileID: 3542088128369421778}
+  _levelIndex: 0

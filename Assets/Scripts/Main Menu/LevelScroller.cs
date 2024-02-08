@@ -10,13 +10,20 @@ public class LevelScroller : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     [BoxGroup("References"), RequiredIn(PrefabKind.InstanceInScene), SerializeField] private ChainLevel _chain;
     [BoxGroup("References"), RequiredIn(PrefabKind.InstanceInScene), SerializeField] private Transform _levelContainer;
     [BoxGroup("References"), RequiredIn(PrefabKind.InstanceInScene), SerializeField] private Transform _levelMiddlePoint;
-    [BoxGroup("References"), RequiredIn(PrefabKind.InstanceInScene), SerializeField] private GameObject _lightUp;
-    [BoxGroup("References"), RequiredIn(PrefabKind.InstanceInScene), SerializeField] private GameObject _lightDown;
+    [BoxGroup("References"), RequiredIn(PrefabKind.InstanceInScene), SerializeField] private OpenCloseAnimTrigger _lightUp;
+    [BoxGroup("References"), RequiredIn(PrefabKind.InstanceInScene), SerializeField] private OpenCloseAnimTrigger _lightDown;
+    [BoxGroup("References"), RequiredIn(PrefabKind.InstanceInScene), SerializeField] private OpenCloseAnimTrigger _buttonUp;
+    [BoxGroup("References"), RequiredIn(PrefabKind.InstanceInScene), SerializeField] private OpenCloseAnimTrigger _buttonDown;
 
     [BoxGroup("Auto Scroll"), SerializeField] private float _scrollTimeToNextLevel = 0.2f;
     [BoxGroup("Auto Scroll"), SerializeField] private float _scrollTimeToFarLevel = 0.7f;
 
     private int _currentIndex;
+    private int _farAmountConsidered;
+
+    private void Start() {
+        _farAmountConsidered = (int)(_scrollTimeToFarLevel / _scrollTimeToNextLevel + 1);
+    }
 
     private void OnEnable() {
         _currentIndex = -1;
@@ -60,15 +67,13 @@ public class LevelScroller : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
             return;
         }
 
-        if (Mathf.Abs(levelIndex - _currentIndex) == 1) {
+        if (Mathf.Abs(levelIndex - _currentIndex) < _farAmountConsidered) {
             // Scroll near
             ScrollTo(levelIndex, _scrollTimeToNextLevel);
         } else {
             // Scroll far
             ScrollTo(levelIndex, _scrollTimeToFarLevel);
         }
-
-        _currentIndex = levelIndex;
     }
 
     [Button]
@@ -100,7 +105,7 @@ public class LevelScroller : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
         _levelContainer.DOMove(targetPosition, scrollTime).SetEase(Ease.InOutSine).OnUpdate(() => {
             float length = Vector3.Distance(_levelContainer.position, lastPosition);
             float chainScrollAmount = length / chainHeight;
-            Debug.Log($"{length} - {chainScrollAmount}");
+            //Debug.Log($"{length} - {chainScrollAmount}");
             if (_levelContainer.position.y < lastPosition.y) {
                 _chain.MoveDown(chainScrollAmount);
             } else {
@@ -110,9 +115,33 @@ public class LevelScroller : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
             lastPosition = _levelContainer.position;
         });
 
+        _currentIndex = levelIndex;
+
         int savedLevel = PlayerData.Level;
 
-        //if (savedLevel)
+        if (savedLevel - _currentIndex > 1) {
+            _lightUp.Open();
+        } else {
+            _lightUp.Close();
+        }
+
+        if (_currentIndex - savedLevel > 1) {
+            _lightDown.Open();
+        } else {
+            _lightDown.Close();
+        }
+
+        if (_currentIndex == _levelContainer.childCount - 1) {
+            _buttonUp.Close();
+        } else {
+            _buttonUp.Open();
+        }
+
+        if (_currentIndex == 0) {
+            _buttonDown.Close();
+        } else {
+            _buttonDown.Open();
+        }
 
         //DOTween.To(x => {
 

@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,10 +13,38 @@ public class MainMenu : MonoBehaviour
     [BoxGroup("Canvas"), SerializeField] private GameObject _canvas;
     [BoxGroup("Canvas"), SerializeField] private float _delaySpawnCanvas = 3f;
 
+    [TabGroup("Board"), SerializeField] private OpenCloseAnimTrigger _boardAnimTrigger;
+    [TabGroup("Board"), SerializeField] private OpenCloseAnimTrigger _tapNextAnimTrigger;
+    [TabGroup("Board"), SerializeField] private float _backToBoardTimer = 10f;
+
+    [TabGroup("Title"), SerializeField] private Animator _titleAnim;
+    [TabGroup("Title"), SerializeField] private OpenCloseAnimTrigger[] _treeAnimTriggers;
+
+    [TabGroup("Game"), SerializeField] private OpenCloseAnimTrigger _gameAnimTrigger;
+    [TabGroup("Game"), SerializeField] private Transform _levelContainer;
+    [TabGroup("Game"), SerializeField] private float _hideYPosition = 4.565329551696777f;
+    [TabGroup("Game"), SerializeField] private float _hideLevelTime = 0.4f;
+    [TabGroup("Game"), SerializeField] private OpenCloseAnimTrigger[] _animTriggersToClose;
+
+    private bool _isInChainButtons;
+    private float _currentBackTimer;
+
     void Start() {
-        PlayerData.Level = 4;
+        PlayerData.Level = 3;
+        LevelContainerSetup();
         StartCoroutine(StartMenuCoroutine());
         StartCoroutine(DelaySpawnCanvasCoroutine());
+    }
+
+    private void Update() {
+        if (_isInChainButtons) {
+            _currentBackTimer -= Time.deltaTime;
+
+            if (_currentBackTimer <= 0f) {
+                _isInChainButtons = false;
+                ExitChainButtonsToTitle();
+            }
+        }
     }
 
     [Button]
@@ -77,11 +106,115 @@ public class MainMenu : MonoBehaviour
         }
     }
 
+    private void LevelContainerSetup() {
+        var levels = _levelContainer.GetComponentsInChildren<LevelButton>(true);
+        int currentLevel = PlayerData.Level;
+
+        for (int i = 0; i < levels.Length; i++) {
+            levels[i].SetLevel(i);
+
+            if (i <= currentLevel) {
+                levels[i].IsLocked = false;
+            } else {
+                levels[i].IsLocked = true;
+            }
+        }
+    }
+
     private IEnumerator DelaySpawnCanvasCoroutine() {
         _canvas.SetActive(false);
 
         yield return new WaitForSeconds(_delaySpawnCanvas);
 
         _canvas.SetActive(true);
+    }
+
+    public void ExitTitleToChainButtons() {
+        StartCoroutine(ExitTitleToChainButtonsCoroutine());
+    }
+
+    private IEnumerator ExitTitleToChainButtonsCoroutine() {
+        SetTitle(false);
+
+        yield return new WaitForSeconds(1f);
+
+        SetChainButtons(true);
+    }
+
+    public void ExitChainButtonsToTitle() {
+        StartCoroutine(ExitChainButtonsToTitleCoroutine());
+    }
+
+    private IEnumerator ExitChainButtonsToTitleCoroutine() {
+        SetChainButtons(false);
+
+        yield return new WaitForSeconds(1f);
+
+        SetTitle(true);
+    }
+
+    public void ExitChainButtonsToGame() {
+        StartCoroutine(ExitChainButtonsToGameCoroutine());
+    }
+
+    private IEnumerator ExitChainButtonsToGameCoroutine() {
+        SetChainButtons(false);
+        
+        foreach (var trigger in _treeAnimTriggers) {
+            trigger.Close();
+        }
+
+        yield return new WaitForSeconds(1f);
+
+        SetGamePanel(true);
+    }
+
+    public void ExitGameToChainButtons() {
+        StartCoroutine(ExitGameToChainButtonsCoroutine());
+    }
+
+    private IEnumerator ExitGameToChainButtonsCoroutine() {
+        SetGamePanel(false);
+        _levelContainer.DOMoveY(_hideYPosition, _hideLevelTime);
+
+        yield return new WaitForSeconds(1f);
+
+        SetChainButtons(true);
+
+        foreach (var trigger in _treeAnimTriggers) {
+            trigger.Open();
+        }
+    }
+
+    public void SetTitle(bool enabled) {
+        if (enabled) {
+            _boardAnimTrigger.Open();
+            _tapNextAnimTrigger.Open();
+        } else {
+            _boardAnimTrigger.Close();
+            _tapNextAnimTrigger.Close();
+        }
+    }
+
+    public void SetChainButtons(bool enabled) {
+        if (enabled) {
+            _titleAnim.SetTrigger("enterButtons");
+            _isInChainButtons = true;
+            _currentBackTimer = _backToBoardTimer;
+        } else {
+            _titleAnim.SetTrigger("exitButtons");
+            _isInChainButtons = false;
+        }
+    }
+
+    public void SetGamePanel(bool enabled) {
+        if (enabled) {
+            _gameAnimTrigger.Open();
+        } else {
+            _gameAnimTrigger.Close();
+            foreach (var trigger in _animTriggersToClose) {
+                trigger.Close();
+            }
+        }
     }
 }

@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [CreateAssetMenu(fileName = "Game Skin", menuName = "Gameplay Skin Collection")]
 public class GameSkin : ScriptableObject
@@ -16,25 +18,27 @@ public class GameSkin : ScriptableObject
             return (Sprite[])_itemSprites.Clone();
         }
 
-        bool[] chosen = new bool[amount];
+        bool[] chosen = new bool[_itemSprites.Length];
+
         Sprite[] sprites = new Sprite[amount];
-        int currentIndex = 0;
 
         for (int i = 0; i < amount; i++) {
             int rand = Random.Range(0, _itemSprites.Length);
 
-            while (rand < _itemSprites.Length && !chosen[rand]) {
+            while (rand < _itemSprites.Length && chosen[rand]) {
                 rand++;
             }
 
             if (rand >= _itemSprites.Length) {
                 rand = 0;
-                while (rand < _itemSprites.Length && !chosen[rand]) {
+                while (rand < _itemSprites.Length && chosen[rand]) {
                     rand++;
                 }
             }
 
-            sprites[currentIndex++] = _itemSprites[rand];
+            chosen[rand] = true;
+            
+            sprites[i] = _itemSprites[rand];
         }
 
         return sprites;

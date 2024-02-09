@@ -1,16 +1,19 @@
-using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class GameItemContainer : MonoBehaviour
 {
-    [BoxGroup("References"), SerializeField] private Image _image;
+    [SerializeField] private Vector2Int _gridPosition;
+    [SerializeField] private GameItem _containItem;
 
-    [SerializeField, Tooltip("If Object ID = -1, it is not a normal item")] private int _itemId = -1;
+    public Vector2Int GridPosition {
+        get => _gridPosition;
+        set => _gridPosition = value;
+    }
 
-    public void SetItem(Sprite itemSprite, int itemId) {
-
+    public GameItem ContainItem {
+        get => _containItem;
+        set => _containItem = value;
     }
 }

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7590154513709710574}
   - component: {fileID: 6020162037780552673}
+  - component: {fileID: 8668783620901911175}
   m_Layer: 5
   m_Name: Game Item
   m_TagString: Untagged
@@ -51,10 +52,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _image: {fileID: 4252099550041558441}
   _requiredDragLengthToMove: 25
+  _finishEffectPrefab: {fileID: 0}
   _itemId: -1
   _registeredContainer: {fileID: 0}
   _gridPosition: {x: 0, y: 0}
   _isWorking: 0
+--- !u!95 &8668783620901911175
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1721487591932240833}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0ea088630b7f75b47a371f9193d44caf, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7820716887540436001
 GameObject:
   m_ObjectHideFlags: 0
@@ -87,10 +110,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 7590154513709710574}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -20, y: -20}
+  m_SizeDelta: {x: 75.71429, y: 75.71429}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5813439078179908666
 CanvasRenderer:

@@ -10224,6 +10224,14 @@ MonoBehaviour:
   - {fileID: 1539778808}
   _amountOfUniqueItem: 5
   _itemMoveTime: 0.1
+  _pointerClickDelay: 0.2
+  _rollSpeed: 100
+  _gearsRollLeft:
+  - {fileID: 1085630783}
+  - {fileID: 1053557633}
+  _gearsRollRight:
+  - {fileID: 344419079}
+  - {fileID: 610695875}
   _boardItemContainer: {fileID: 1107377451}
   _itemContainer: {fileID: 1784451956}
   _gridAmount: {x: 7, y: 7}
@@ -18715,7 +18723,7 @@ Transform:
   m_GameObject: {fileID: 1611293381}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -20.4, y: -60.381115, z: -13}
+  m_LocalPosition: {x: -20.4, y: -60.57774, z: -13}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -24723,7 +24731,7 @@ Transform:
   m_GameObject: {fileID: 3354416415717396806}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.61888504, z: 0}
+  m_LocalPosition: {x: 0, y: 0.42226028, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -25,6 +25,7 @@ public class GameItem : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     [BoxGroup("Setup"), SerializeField] private Image _image;
     [BoxGroup("Setup"), SerializeField] private float _requiredDragLengthToMove = 10f;
+    [BoxGroup("Setup"), SerializeField, RequiredIn(PrefabKind.InstanceInPrefab)] private ParticleSystem _finishEffectPrefab;
 
     [BoxGroup("Runtime"), SerializeField, Tooltip("If Object ID = -1, it is not a normal item")] private int _itemId = -1;
     [BoxGroup("Runtime"), SerializeField] private GameItemContainer _registeredContainer;
@@ -132,7 +133,13 @@ public class GameItem : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     }
 
     public void FinishItem() {
+        if (_finishEffectPrefab != null) {
+            Instantiate(_finishEffectPrefab, transform.position, Quaternion.identity);
+        }
 
+        _registeredContainer.ContainItem = null;
+
+        Destroy(gameObject);
     }
 
     public void OnPointerDown(PointerEventData eventData) {

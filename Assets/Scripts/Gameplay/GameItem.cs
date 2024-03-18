@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class GameItem : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class GameItem : MonoBehaviour
 {
     public static Vector3 LastMousePosition;
     public static int UnreadyItemAmount { get; private set; }
@@ -41,7 +41,6 @@ public class GameItem : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public GameItemContainer RegisteredContainer => _registeredContainer;
     public Vector2Int GridPosition => _gridPosition;
     public bool IsMoving { get; private set; }
-    public bool MouseChosen { get; private set; }
 
     public void SetItem(Sprite itemSprite, int itemId) {
         _image.sprite = itemSprite;
@@ -80,18 +79,6 @@ public class GameItem : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         if (CanGoBelow(out int x, out int y)) {
             UnreadyItemAmount++;
             GoTo(x, y);
-        } else if (MouseChosen) {
-            Vector3 currentMousePosition = Input.mousePosition;
-
-            if (currentMousePosition.x - LastMousePosition.x >= _requiredDragLengthToMove) {
-                SwapWith(MainGameplayController.Instance.GetGameItemContainer(_gridPosition.x + 1, _gridPosition.y));
-            } else if (LastMousePosition.x - currentMousePosition.x >= _requiredDragLengthToMove) {
-                SwapWith(MainGameplayController.Instance.GetGameItemContainer(_gridPosition.x - 1, _gridPosition.y));
-            } else if (currentMousePosition.y - LastMousePosition.y >= _requiredDragLengthToMove) {
-                SwapWith(MainGameplayController.Instance.GetGameItemContainer(_gridPosition.x, _gridPosition.y + 1));
-            } else if (LastMousePosition.y - currentMousePosition.y >= _requiredDragLengthToMove) {
-                SwapWith(MainGameplayController.Instance.GetGameItemContainer(_gridPosition.x, _gridPosition.y - 1));
-            }
         }
     }
 
@@ -142,31 +129,13 @@ public class GameItem : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         Destroy(gameObject);
     }
 
-    public void OnPointerDown(PointerEventData eventData) {
-        Debug.Log($"Down: {name}");
-        if (!MainGameplayController.Instance.CanClickPointer || !MainGameplayController.Instance.CanDragItem) {
+    public void SwapWith(GameItemContainer container) {
+        if (container == null || container.ContainItem == null) {
+            // Failed to swap
             return;
         }
 
-        LastMousePosition = Input.mousePosition;
-        MouseChosen = true;
-    }
-
-    public void OnPointerUp(PointerEventData eventData) {
-        Debug.Log($"Up: {name}");
-
-        MouseChosen = false;
-    }
-
-    private void SwapWith(GameItemContainer container) {
-        MouseChosen = false;
-
-        if (container == null || container.ContainItem == null) {
-            // Failed to swap
-        } else {
-            // success
-            Swap(this, container.ContainItem, true);
-        }
+        Swap(this, container.ContainItem, true);
     }
 
     public async static void Swap(GameItem item1, GameItem item2, bool callEvent) {

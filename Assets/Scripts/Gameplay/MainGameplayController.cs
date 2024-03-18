@@ -3,9 +3,13 @@ using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class MainGameplayController : MonoBehaviourSingleton<MainGameplayController>
 {
+    [BoxGroup("TEST"), SerializeField] private bool _enableTest;
+    [BoxGroup("TEST"), SerializeField, EnableIf(nameof(_enableTest))] private LevelData _testLevelData;
+
     [TabGroup("Setup"), SerializeField] private GameItem _itemPrefab;
     [TabGroup("Setup"), SerializeField] private GameSkin _usedGameSkin;
     [TabGroup("Setup"), SerializeField] private GameItemContainer[] _topBoxes;
@@ -17,19 +21,30 @@ public class MainGameplayController : MonoBehaviourSingleton<MainGameplayControl
     [TabGroup("Gear"), SerializeField] private RectTransform[] _gearsRollLeft;
     [TabGroup("Gear"), SerializeField] private RectTransform[] _gearsRollRight;
 
+    [BoxGroup("Scoring"), SerializeField] private int _itemScoreAmount = 10;
+    [BoxGroup("Scoring"), SerializeField] private int _energyScoreAmount = 10;
+
     [BoxGroup("Board"), SerializeField] private Transform _boardItemContainer;
     [BoxGroup("Board"), SerializeField] private Transform _itemContainer;
     [BoxGroup("Board"), SerializeField] private Vector2Int _gridAmount = new Vector2Int(7, 7);
 
+    [BoxGroup("Events")] public UnityEvent<MainGameplayController> OnGenerateLevelCompleted;
+    [BoxGroup("Events")] public UnityEvent<GameItem, int> OnScoreGotten;
+    [BoxGroup("Events")] public UnityEvent<GameItem, int> OnEnergyGotten;
+
+    private LevelData _currentLevelData;
     private Sprite[] _itemSpriteInUse;
     private GameItemContainer[,] _gameItemContainers;
 
+    public LevelData CurrentLevelData => _currentLevelData;
+    public bool IsPlaying { get; private set; }
+    public float GameTimer { get; private set; }
+    public int ScoreObjective { get; private set; }
+    public int CurrentScore { get; private set; }
     public bool CanDragItem => GameItem.UnreadyItemAmount == 0;
     public float ItemMoveTime => _itemMoveTime;
-    public bool CanClickPointer => _currentPointerClickTimer <= 0f;
 
     private bool _lastUnreadyStatus;
-    private float _currentPointerClickTimer;
 
     private void Start() {
         _itemSpriteInUse = _usedGameSkin.RandomChooseSprite(_amountOfUniqueItem);
@@ -40,8 +55,14 @@ public class MainGameplayController : MonoBehaviourSingleton<MainGameplayControl
     }
 
     private void Update() {
-        if (_currentPointerClickTimer > 0f) {
-            _currentPointerClickTimer -= Time.deltaTime;
+        if (!IsPlaying) {
+            return;
+        }
+
+        if (GameTimer > 0f) {
+            GameTimer -= Time.deltaTime;
+        } else {
+            GameTimer = 0f;
         }
 
         if ((GameItem.UnreadyItemAmount > 0) && !_lastUnreadyStatus) {
@@ -77,9 +98,24 @@ public class MainGameplayController : MonoBehaviourSingleton<MainGameplayControl
     private IEnumerator GenerateBoard() {
         yield return null;
 
+        if (_enableTest) {
+            _currentLevelData = _testLevelData;
+        } else {
+            _currentLevelData = _testLevelData;
+        }
+
+        GameTimer = _currentLevelData.Timer;
+        ScoreObjective = _currentLevelData.ScoreObjective;
+
+        CurrentScore = 0;
+
         foreach (var topBox in _topBoxes) {
             GenerateNewGameItem(topBox);
         }
+
+        IsPlaying = true;
+
+        OnGenerateLevelCompleted?.Invoke(this);
     }
 
     private void GenerateGameItemContainer() {
@@ -235,7 +271,7 @@ public class MainGameplayController : MonoBehaviourSingleton<MainGameplayControl
             _successAmount++;
             _alreadyChecked[x, y] = true;
         } else {
-            GetGameItemContainer(x, y).ContainItem.FinishItem();
+            FinishGameItem(GetGameItemContainer(x, y).ContainItem);
             _alreadyChecked[x, y] = false;
         }
 
@@ -255,7 +291,7 @@ public class MainGameplayController : MonoBehaviourSingleton<MainGameplayControl
             _successAmount++;
             _alreadyChecked[x, y] = true;
         } else {
-            GetGameItemContainer(x, y).ContainItem.FinishItem();
+            FinishGameItem(GetGameItemContainer(x, y).ContainItem);
             _alreadyChecked[x, y] = false;
         }
 
@@ -268,5 +304,12 @@ public class MainGameplayController : MonoBehaviourSingleton<MainGameplayControl
         if (down != null && (doFinishItem == _alreadyChecked[x, y - 1]) && down.ContainItem != null && down.ContainItem.ItemId == idToCheck) {
             RecursiveCheckVertical(x, y - 1, idToCheck, doFinishItem);
         }
+    }
+
+    public void FinishGameItem(GameItem gameItem) {
+        gameItem.FinishItem();
+        CurrentScore += _itemScoreAmount;
+        OnScoreGotten?.Invoke(gameItem, _itemScoreAmount);
+        OnEnergyGotten?.Invoke(gameItem, _energyScoreAmount);
     }
 }

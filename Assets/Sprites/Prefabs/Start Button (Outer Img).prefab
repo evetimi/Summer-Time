@@ -380,7 +380,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 70
+  m_fontSize: 69.6
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -491,7 +491,7 @@ MonoBehaviour:
   m_Texture: {fileID: 2800000, guid: bd10f56e07898fe43a834d3a55216cf8, type: 3}
   m_UVRect:
     serializedVersion: 2
-    x: 664.3778
+    x: 671.44684
     y: 0
     width: 1
     height: 1
@@ -547,7 +547,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10, y: 10}
+  m_SizeDelta: {x: 120, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2325742635425374812
 CanvasRenderer:
@@ -577,7 +577,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: cc6de0c7b20dca542ad45feb412ea22c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3d3f9673c47cac24aa34f7c5a5bed8d2, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

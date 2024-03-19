@@ -52,7 +52,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _image: {fileID: 4252099550041558441}
   _requiredDragLengthToMove: 25
-  _finishEffectPrefab: {fileID: 0}
+  _finishEffectPrefab: {fileID: 12829583311227174, guid: 6f469781092664e4aa0ead487d72f450, type: 3}
   _itemId: -1
   _registeredContainer: {fileID: 0}
   _gridPosition: {x: 0, y: 0}

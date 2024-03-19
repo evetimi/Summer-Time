@@ -10,12 +10,16 @@ public class MainGameplayController : MonoBehaviourSingleton<MainGameplayControl
     [BoxGroup("TEST"), SerializeField] private bool _enableTest;
     [BoxGroup("TEST"), SerializeField, EnableIf(nameof(_enableTest))] private LevelData _testLevelData;
 
-    [TabGroup("Setup"), SerializeField] private GameItem _itemPrefab;
-    [TabGroup("Setup"), SerializeField] private GameSkin _usedGameSkin;
-    [TabGroup("Setup"), SerializeField] private GameItemContainer[] _topBoxes;
-    [TabGroup("Setup"), SerializeField] private int _amountOfUniqueItem;
-    [TabGroup("Setup"), SerializeField] private float _itemMoveTime = 0.2f;
-    [TabGroup("Setup"), SerializeField] private float _pointerClickDelay = 0.2f;
+    [TabGroup("Prefabs"), SerializeField] private GameItem _itemPrefab;
+    [TabGroup("Prefabs"), SerializeField] private GameSkin _usedGameSkin;
+    [TabGroup("Prefabs"), SerializeField] private GameItemContainer[] _topBoxes;
+    [TabGroup("Prefabs"), SerializeField] private int _amountOfUniqueItem;
+    [TabGroup("Prefabs"), SerializeField] private float _itemMoveTime = 0.2f;
+    [TabGroup("Prefabs"), SerializeField] private float _pointerClickDelay = 0.2f;
+
+    [TabGroup("Energy Path"), SerializeField] private EnergyPath _energyPathPrefab;
+    [TabGroup("Energy Path"), SerializeField] private Transform _energyPathParent;
+    [TabGroup("Energy Path"), SerializeField] private Transform _energyPathEndPoint;
 
     [TabGroup("Gear"), SerializeField] private float _rollSpeed = 20f;
     [TabGroup("Gear"), SerializeField] private RectTransform[] _gearsRollLeft;
@@ -309,7 +313,14 @@ public class MainGameplayController : MonoBehaviourSingleton<MainGameplayControl
     public void FinishGameItem(GameItem gameItem) {
         gameItem.FinishItem();
         CurrentScore += _itemScoreAmount;
+        SpawnEnergyPath(gameItem.transform.position, _energyPathEndPoint.position);
+
         OnScoreGotten?.Invoke(gameItem, _itemScoreAmount);
         OnEnergyGotten?.Invoke(gameItem, _energyScoreAmount);
+    }
+
+    public void SpawnEnergyPath(Vector3 startPos, Vector3 endPos) {
+        EnergyPath energyPath = Instantiate(_energyPathPrefab, _energyPathParent);
+        energyPath.DoMovement(startPos, endPos);
     }
 }

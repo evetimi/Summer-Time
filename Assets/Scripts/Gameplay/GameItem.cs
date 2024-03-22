@@ -41,10 +41,24 @@ public class GameItem : MonoBehaviour
     public GameItemContainer RegisteredContainer => _registeredContainer;
     public Vector2Int GridPosition => _gridPosition;
     public bool IsMoving { get; private set; }
+    public bool IsUnready { get; private set; }
 
     public void SetItem(Sprite itemSprite, int itemId) {
         _image.sprite = itemSprite;
         _itemId = itemId;
+    }
+
+    private void SetUnready(bool isUnready) {
+        IsUnready = isUnready;
+        if (IsUnready) {
+            UnreadyItemAmount++;
+        } else {
+            UnreadyItemAmount--;
+        }
+
+        if (UnreadyItemAmount < 0) {
+            UnreadyItemAmount = 0;
+        }
     }
 
     /// <summary>
@@ -77,7 +91,7 @@ public class GameItem : MonoBehaviour
         }
 
         if (CanGoBelow(out int x, out int y)) {
-            UnreadyItemAmount++;
+            SetUnready(true);
             GoTo(x, y);
         }
     }
@@ -113,13 +127,17 @@ public class GameItem : MonoBehaviour
             if (CanGoBelow(out int x1, out int y1)) {
                 GoTo(x1, y1);
             } else {
-                UnreadyItemAmount--;
+                SetUnready(false);
                 IsMoving = false;
             }
         });
     }
 
     public void FinishItem() {
+        if (IsUnready) {
+            SetUnready(false);
+        }
+
         if (_finishEffectPrefab != null) {
             Instantiate(_finishEffectPrefab, transform.position, Quaternion.identity);
         }

@@ -13,3 +13,5 @@ MonoBehaviour:
   m_Name: Level Data
   m_EditorClassIdentifier: 
   _timer: 90
+  _eventHappensAt: 75
+  _scoreObjective: 2000

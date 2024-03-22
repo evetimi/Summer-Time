@@ -28,13 +28,29 @@ public class MainGameplayController : MonoBehaviourSingleton<MainGameplayControl
     [BoxGroup("Scoring"), SerializeField] private int _itemScoreAmount = 10;
     [BoxGroup("Scoring"), SerializeField] private int _energyScoreAmount = 10;
 
+    [BoxGroup("Combo"), SerializeField] private UIComboPopup _comboPopup;
+    [BoxGroup("Combo"), SerializeField] private UIComboText _comboText;
+
     [BoxGroup("Board"), SerializeField] private Transform _boardItemContainer;
     [BoxGroup("Board"), SerializeField] private Transform _itemContainer;
     [BoxGroup("Board"), SerializeField] private Vector2Int _gridAmount = new Vector2Int(7, 7);
 
+    [BoxGroup("Ultimate"), SerializeField] private UltimateContainer _ultimateContainer;
+
+    [BoxGroup("Tsunami Event"), SerializeField] private TsunamiEvent _tsunamiEvent;
+    [BoxGroup("Tsunami Event"), SerializeField] private GameObject _tsunamiSpeechBubbleWarning;
+
     [BoxGroup("Events")] public UnityEvent<MainGameplayController> OnGenerateLevelCompleted;
     [BoxGroup("Events")] public UnityEvent<GameItem, int> OnScoreGotten;
     [BoxGroup("Events")] public UnityEvent<GameItem, int> OnEnergyGotten;
+    [BoxGroup("Events")] public UnityEvent<int> OnComboChanged;
+    [BoxGroup("Events")] public UnityEvent OnEventHas10sLeft;
+    [BoxGroup("Events")] public UnityEvent OnEventHappened;
+
+    [Button]
+    public void ShowCurrentUnreadyItem() {
+        Debug.Log($"Current Unready Item: {GameItem.UnreadyItemAmount}");
+    }
 
     private LevelData _currentLevelData;
     private Sprite[] _itemSpriteInUse;
@@ -43,12 +59,17 @@ public class MainGameplayController : MonoBehaviourSingleton<MainGameplayControl
     public LevelData CurrentLevelData => _currentLevelData;
     public bool IsPlaying { get; private set; }
     public float GameTimer { get; private set; }
+    public float EventHappensAt { get; private set; }
     public int ScoreObjective { get; private set; }
     public int CurrentScore { get; private set; }
+    public int CurrentCombo { get; private set; }
     public bool CanDragItem => GameItem.UnreadyItemAmount == 0;
     public float ItemMoveTime => _itemMoveTime;
 
     private bool _lastUnreadyStatus;
+    private bool _event10sNotified;
+    private bool _gameEventCompleted;
+    private Coroutine _resetComboCoroutine;
 
     private void Start() {
         _itemSpriteInUse = _usedGameSkin.RandomChooseSprite(_amountOfUniqueItem);
@@ -69,6 +90,10 @@ public class MainGameplayController : MonoBehaviourSingleton<MainGameplayControl
             GameTimer = 0f;
         }
 
+        if (EventHappensAt > 0f && !_gameEventCompleted) {
+            GameEventUpdate();
+        }
+
         if ((GameItem.UnreadyItemAmount > 0) && !_lastUnreadyStatus) {
             _lastUnreadyStatus = true;
         } else if ((GameItem.UnreadyItemAmount == 0) && _lastUnreadyStatus) {
@@ -86,6 +111,22 @@ public class MainGameplayController : MonoBehaviourSingleton<MainGameplayControl
             foreach (var gear in _gearsRollRight) {
                 gear.Rotate(Vector3.forward, -_rollSpeed * Time.deltaTime);
             }
+        }
+    }
+
+    private void GameEventUpdate() {
+        if (!_event10sNotified && GameTimer - EventHappensAt <= 10f) {
+            if (_tsunamiSpeechBubbleWarning) {
+                _tsunamiSpeechBubbleWarning.SetActive(true);
+            }
+            OnEventHas10sLeft?.Invoke();
+            _event10sNotified = true;
+        }
+
+        if (GameTimer <= EventHappensAt && _tsunamiEvent) {
+            _tsunamiEvent.SpawnTsunami();
+            OnEventHappened?.Invoke();
+            _gameEventCompleted = true;
         }
     }
 
@@ -109,6 +150,7 @@ public class MainGameplayController : MonoBehaviourSingleton<MainGameplayControl
         }
 
         GameTimer = _currentLevelData.Timer;
+        EventHappensAt = _currentLevelData.EventHappensAt;
         ScoreObjective = _currentLevelData.ScoreObjective;
 
         CurrentScore = 0;
@@ -181,6 +223,11 @@ public class MainGameplayController : MonoBehaviourSingleton<MainGameplayControl
     }
 
     private void OnItemsSwapped(GameItem item1, GameItem item2) {
+        if (_resetComboCoroutine != null) {
+            StopCoroutine(_resetComboCoroutine);
+            SetCombo(0);
+        }
+
         bool item1Result = CheckItemFinish(item1.GridPosition.x, item1.GridPosition.y);
         bool item2Result = CheckItemFinish(item2.GridPosition.x, item2.GridPosition.y);
 
@@ -267,6 +314,22 @@ public class MainGameplayController : MonoBehaviourSingleton<MainGameplayControl
             return false;
         }
 
+        SetCombo(CurrentCombo + 1);
+
+        // Do show match 4 or 5 here
+        if (CurrentCombo == 1) {
+            int matched = (_successAmount >= 3) ? _successAmount : horizontalAmount + 1;
+            if (matched > 3) {
+                _comboPopup.SpawnCombo(0);
+                _comboText.PopMatch(matched);
+            }
+        } else {
+            _comboPopup.SpawnCombo(CurrentCombo);
+            _comboText.PopCombo(CurrentCombo);
+        }
+
+        _resetComboCoroutine = StartCoroutine(ResetComboCoroutine());
+
         return true;
     }
 
@@ -311,16 +374,45 @@ public class MainGameplayController : MonoBehaviourSingleton<MainGameplayControl
     }
 
     public void FinishGameItem(GameItem gameItem) {
+        if (gameItem == null)
+            return;
+
         gameItem.FinishItem();
         CurrentScore += _itemScoreAmount;
-        SpawnEnergyPath(gameItem.transform.position, _energyPathEndPoint.position);
 
         OnScoreGotten?.Invoke(gameItem, _itemScoreAmount);
-        OnEnergyGotten?.Invoke(gameItem, _energyScoreAmount);
+
+        if (_ultimateContainer && !_ultimateContainer.IsUsingUltimate) {
+            SpawnEnergyPath(gameItem.transform.position, _energyPathEndPoint.position);
+            OnEnergyGotten?.Invoke(gameItem, _energyScoreAmount);
+        }
+    }
+
+    public void SetCombo(int targetCombo) {
+        Debug.Log("Combo: " + targetCombo);
+        CurrentCombo = targetCombo;
+        OnComboChanged?.Invoke(CurrentCombo);
+    }
+
+    private IEnumerator ResetComboCoroutine() {
+        yield return new WaitUntil(() => GameItem.UnreadyItemAmount != 0);
+        yield return new WaitUntil(() => GameItem.UnreadyItemAmount == 0);
+        //SetCombo(0);
     }
 
     public void SpawnEnergyPath(Vector3 startPos, Vector3 endPos) {
         EnergyPath energyPath = Instantiate(_energyPathPrefab, _energyPathParent);
         energyPath.DoMovement(startPos, endPos);
+    }
+
+    [Button]
+    public void ImmediatelyDestroyAllGameItem() {
+        for (int x = 0; x < _gridAmount.x; x++) {
+            for (int y = 0; y < _gridAmount.y; y++) {
+                _gameItemContainers[x, y].DestroyItem();
+            }
+        }
+
+        CheckTopBoxes(0, 0);
     }
 }

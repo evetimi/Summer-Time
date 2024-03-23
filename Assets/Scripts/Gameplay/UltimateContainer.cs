@@ -2,6 +2,7 @@ using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class UltimateContainer : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class UltimateContainer : MonoBehaviour
     [BoxGroup("Visual"), SerializeField] private Transform _waveTransform;
     [BoxGroup("Visual"), SerializeField] private Transform _emptyWavePosition;
     [BoxGroup("Visual"), SerializeField] private Transform _fullWavePosition;
+
+    [BoxGroup("Events"), SerializeField] public UnityEvent OnUltimateUsed;
+    [BoxGroup("Events"), SerializeField] public UnityEvent OnUltimateFinished;
 
     [BoxGroup("Runtime"), ReadOnly, ShowInInspector] private int _currentEnergy;
 
@@ -77,6 +81,8 @@ public class UltimateContainer : MonoBehaviour
             if (Pointer.Instance) {
                 Pointer.Instance.SetFinishGameItemOnHover(true);
             }
+
+            OnUltimateUsed?.Invoke();
         }
     }
 
@@ -88,5 +94,7 @@ public class UltimateContainer : MonoBehaviour
         if (Pointer.Instance) {
             Pointer.Instance.SetFinishGameItemOnHover(false);
         }
+
+        OnUltimateFinished?.Invoke();
     }
 }

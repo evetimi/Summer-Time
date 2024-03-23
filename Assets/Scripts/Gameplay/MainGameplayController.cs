@@ -46,6 +46,7 @@ public class MainGameplayController : MonoBehaviourSingleton<MainGameplayControl
     [BoxGroup("Events")] public UnityEvent<int> OnComboChanged;
     [BoxGroup("Events")] public UnityEvent OnEventHas10sLeft;
     [BoxGroup("Events")] public UnityEvent OnEventHappened;
+    [BoxGroup("Events")] public UnityEvent<bool> OnGameFinish;
 
     [Button]
     public void ShowCurrentUnreadyItem() {
@@ -55,24 +56,41 @@ public class MainGameplayController : MonoBehaviourSingleton<MainGameplayControl
     private LevelData _currentLevelData;
     private Sprite[] _itemSpriteInUse;
     private GameItemContainer[,] _gameItemContainers;
+    private ItemCollection[] _itemsCollected;
+
+    public struct ItemCollection {
+        public Sprite itemSprite;
+        public int amount;
+    }
 
     public LevelData CurrentLevelData => _currentLevelData;
+    public ItemCollection[] ItemsCollected => _itemsCollected;
     public bool IsPlaying { get; private set; }
     public float GameTimer { get; private set; }
     public float EventHappensAt { get; private set; }
     public int ScoreObjective { get; private set; }
     public int CurrentScore { get; private set; }
     public int CurrentCombo { get; private set; }
+    public int NumberOfUltimateUsed { get; private set; }
+    public int LongestCombo { get; private set; }
+    public int HighestMatch { get; private set; }
     public bool CanDragItem => GameItem.UnreadyItemAmount == 0;
     public float ItemMoveTime => _itemMoveTime;
 
     private bool _lastUnreadyStatus;
     private bool _event10sNotified;
     private bool _gameEventCompleted;
-    private Coroutine _resetComboCoroutine;
 
     private void Start() {
         _itemSpriteInUse = _usedGameSkin.RandomChooseSprite(_amountOfUniqueItem);
+
+        _itemsCollected = new ItemCollection[_itemSpriteInUse.Length];
+        for (int i = 0; i < _itemsCollected.Length; i++) {
+            _itemsCollected[i].itemSprite = _itemSpriteInUse[i];
+            _itemsCollected[i].amount = 0;
+        }
+
+        _ultimateContainer.OnUltimateUsed.AddListener(UseUltimateIncrease);
 
         GenerateGameItemContainer();
 
@@ -88,6 +106,7 @@ public class MainGameplayController : MonoBehaviourSingleton<MainGameplayControl
             GameTimer -= Time.deltaTime;
         } else {
             GameTimer = 0f;
+            FinishGame();
         }
 
         if (EventHappensAt > 0f && !_gameEventCompleted) {
@@ -112,6 +131,12 @@ public class MainGameplayController : MonoBehaviourSingleton<MainGameplayControl
                 gear.Rotate(Vector3.forward, -_rollSpeed * Time.deltaTime);
             }
         }
+    }
+
+    private void FinishGame() {
+        IsPlaying = false;
+        bool isWin = CurrentScore >= ScoreObjective;
+        OnGameFinish?.Invoke(isWin);
     }
 
     private void GameEventUpdate() {
@@ -152,6 +177,9 @@ public class MainGameplayController : MonoBehaviourSingleton<MainGameplayControl
         GameTimer = _currentLevelData.Timer;
         EventHappensAt = _currentLevelData.EventHappensAt;
         ScoreObjective = _currentLevelData.ScoreObjective;
+        NumberOfUltimateUsed = 0;
+        LongestCombo = 0;
+        HighestMatch = 0;
 
         CurrentScore = 0;
 
@@ -223,10 +251,11 @@ public class MainGameplayController : MonoBehaviourSingleton<MainGameplayControl
     }
 
     private void OnItemsSwapped(GameItem item1, GameItem item2) {
-        if (_resetComboCoroutine != null) {
-            StopCoroutine(_resetComboCoroutine);
-            SetCombo(0);
+        if (CurrentCombo > LongestCombo) {
+            LongestCombo = CurrentCombo;
         }
+
+        SetCombo(0);
 
         bool item1Result = CheckItemFinish(item1.GridPosition.x, item1.GridPosition.y);
         bool item2Result = CheckItemFinish(item2.GridPosition.x, item2.GridPosition.y);
@@ -317,8 +346,12 @@ public class MainGameplayController : MonoBehaviourSingleton<MainGameplayControl
         SetCombo(CurrentCombo + 1);
 
         // Do show match 4 or 5 here
+        int matched = (_successAmount >= 3) ? _successAmount : horizontalAmount + 1;
+        if (HighestMatch < matched) {
+            HighestMatch = matched;
+        }
+
         if (CurrentCombo == 1) {
-            int matched = (_successAmount >= 3) ? _successAmount : horizontalAmount + 1;
             if (matched > 3) {
                 _comboPopup.SpawnCombo(0);
                 _comboText.PopMatch(matched);
@@ -327,8 +360,6 @@ public class MainGameplayController : MonoBehaviourSingleton<MainGameplayControl
             _comboPopup.SpawnCombo(CurrentCombo);
             _comboText.PopCombo(CurrentCombo);
         }
-
-        _resetComboCoroutine = StartCoroutine(ResetComboCoroutine());
 
         return true;
     }
@@ -374,8 +405,10 @@ public class MainGameplayController : MonoBehaviourSingleton<MainGameplayControl
     }
 
     public void FinishGameItem(GameItem gameItem) {
-        if (gameItem == null)
+        if (!IsPlaying || gameItem == null)
             return;
+
+        _itemsCollected[gameItem.ItemId].amount++;
 
         gameItem.FinishItem();
         CurrentScore += _itemScoreAmount;
@@ -394,12 +427,6 @@ public class MainGameplayController : MonoBehaviourSingleton<MainGameplayControl
         OnComboChanged?.Invoke(CurrentCombo);
     }
 
-    private IEnumerator ResetComboCoroutine() {
-        yield return new WaitUntil(() => GameItem.UnreadyItemAmount != 0);
-        yield return new WaitUntil(() => GameItem.UnreadyItemAmount == 0);
-        //SetCombo(0);
-    }
-
     public void SpawnEnergyPath(Vector3 startPos, Vector3 endPos) {
         EnergyPath energyPath = Instantiate(_energyPathPrefab, _energyPathParent);
         energyPath.DoMovement(startPos, endPos);
@@ -414,5 +441,10 @@ public class MainGameplayController : MonoBehaviourSingleton<MainGameplayControl
         }
 
         CheckTopBoxes(0, 0);
+    }
+
+    public void UseUltimateIncrease() {
+        Debug.Log("Who called me?");
+        NumberOfUltimateUsed++;
     }
 }

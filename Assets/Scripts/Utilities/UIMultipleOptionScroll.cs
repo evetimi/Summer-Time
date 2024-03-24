@@ -33,7 +33,7 @@ public class UIMultipleOptionScroll : MonoBehaviour
         }
     }
 
-    private void Start() {
+    private void OnEnable() {
         if (!ValidateDisplayTexts()) {
             return;
         }

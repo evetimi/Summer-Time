@@ -25,7 +25,7 @@ public class OpenCloseAnimTrigger : MonoBehaviour
     }
 
     public void Open() {
-        Debug.Log($"Open {name}");
+        //Debug.Log($"Open {name}");
 
         if (setActiveWhenEnable) {
             gameObject.SetActive(true);
@@ -39,7 +39,7 @@ public class OpenCloseAnimTrigger : MonoBehaviour
     }
 
     public void Close() {
-        Debug.Log($"Close {name}");
+        //Debug.Log($"Close {name}");
 
         if (BoolType) {
             _anim.SetBool(boolName, false);

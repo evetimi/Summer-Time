@@ -87,6 +87,7 @@ public class LevelScroller : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
         Transform level = _levelContainer.GetChild(levelIndex);
         Vector3 direction = _levelMiddlePoint.position - level.position;
         Vector3 targetPosition = _levelContainer.position + direction;
+        Vector3 localTargetPosition = _levelContainer.parent.InverseTransformPoint(targetPosition);
 
         RectTransform chainRectTransform = _chain.GetComponent<RectTransform>();
 
@@ -102,7 +103,7 @@ public class LevelScroller : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
         float chainHeight = topLeft.y - bottomLeft.y;
 
         Vector3 lastPosition = _levelContainer.position;
-        _levelContainer.DOMove(targetPosition, scrollTime).SetEase(Ease.InOutSine).OnUpdate(() => {
+        _levelContainer.DOLocalMove(localTargetPosition, scrollTime).SetEase(Ease.InOutSine).OnUpdate(() => {
             float length = Vector3.Distance(_levelContainer.position, lastPosition);
             float chainScrollAmount = length / chainHeight;
             //Debug.Log($"{length} - {chainScrollAmount}");

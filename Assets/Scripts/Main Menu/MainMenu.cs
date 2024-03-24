@@ -38,6 +38,11 @@ public class MainMenu : MonoBehaviour
 
     private void Update() {
         if (_isInChainButtons) {
+            if (UIValidator.IsAnyUIOpen) {
+                _currentBackTimer = _backToBoardTimer;
+                return;
+            }
+
             _currentBackTimer -= Time.deltaTime;
 
             if (_currentBackTimer <= 0f) {
@@ -216,5 +221,21 @@ public class MainMenu : MonoBehaviour
                 trigger.Close();
             }
         }
+    }
+
+    public void PressGameBoardBackButton() {
+        if (ShopMenu.Instance.IsEnabled) {
+            ShopMenu.Instance.Close();
+        } else {
+            ExitGameToChainButtons();
+        }
+    }
+
+    public void OpenSettings() {
+        SettingsController.Instance.Open();
+    }
+
+    public void OpenShop() {
+        ShopMenu.Instance.Open();
     }
 }

@@ -27,14 +27,21 @@ public class MonoBehaviourSingleton<T> : MonoBehaviour where T: Component
 }
 
 public class UISingleton<T> : MonoBehaviourSingleton<T> where T : Component {
+    [SerializeField] protected OpenCloseAnimTrigger _serviceAnimTrigger;
     public bool IsEnabled { get; private set; }
 
     public virtual void Open() {
         IsEnabled = true;
+        if (_serviceAnimTrigger) {
+            _serviceAnimTrigger.Open();
+        }
     }
 
     public virtual void Close() {
         IsEnabled = false;
+        if (_serviceAnimTrigger) {
+            _serviceAnimTrigger.Close();
+        }
     }
 }
 
@@ -82,14 +89,22 @@ public class MonoBehaviourService<T> : MonoBehaviour where T : Component
 }
 
 public class UIService<T> : MonoBehaviourService<T> where T : Component {
+    [SerializeField] protected OpenCloseAnimTrigger _serviceAnimTrigger;
+    
     public bool IsEnabled { get; private set; }
 
     public virtual void Open() {
         IsEnabled = true;
+        if (_serviceAnimTrigger) {
+            _serviceAnimTrigger.Open();
+        }
     }
 
     public virtual void Close() {
         IsEnabled = false;
+        if (_serviceAnimTrigger) {
+            _serviceAnimTrigger.Close();
+        }
     }
 }
 #endregion

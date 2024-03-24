@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3936af9223dacf04581f77f2ea415849, type: 3}
+  m_Name: Summer Pack 2
+  m_EditorClassIdentifier: 
+  _icon: {fileID: -1911500696, guid: f28b144b8e3e3b94ea3b2bc60dc47fca, type: 3}
+  _imageShowcase: {fileID: 21300000, guid: 984558f79f9ec82458fdea10a51fec7a, type: 3}
+  _itemName: Summer Pack 2
+  _itemDescription: Get the pack to enhance your gameplay experience!
+  _sellWithCoin: 1
+  _coinAmountNeeded: 2000
+  _sellWithPearl: 1
+  _pearlAmountNeeded: 100

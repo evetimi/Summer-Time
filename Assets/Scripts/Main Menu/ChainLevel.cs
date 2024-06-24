@@ -14,6 +14,8 @@ public class ChainLevel : MonoBehaviour
     [BoxGroup("Properties"), SerializeField] private Transform[] _gearsRollLeft;
     [BoxGroup("Properties"), SerializeField] private Transform[] _gearsRollRight;
 
+    [BoxGroup("Sound Effects"), SerializeField] private AudioSource _gearRollAudioSource;
+
     private float _currentMove;
 
     private void Start() {
@@ -43,6 +45,10 @@ public class ChainLevel : MonoBehaviour
 
         foreach (var gear in _gearsRollRight) {
             gear.Rotate(Vector3.forward, -amount * _gearRotateMultiplies);
+        }
+
+        if (_gearRollAudioSource) {
+            _gearRollAudioSource.Play();
         }
     }
 

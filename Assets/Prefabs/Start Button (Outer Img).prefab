@@ -120,7 +120,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 286241127729444948}
+  m_TargetGraphic: {fileID: 4411117356409465795}
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
@@ -380,7 +380,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 69.6
+  m_fontSize: 70
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -491,7 +491,7 @@ MonoBehaviour:
   m_Texture: {fileID: 2800000, guid: bd10f56e07898fe43a834d3a55216cf8, type: 3}
   m_UVRect:
     serializedVersion: 2
-    x: 671.44684
+    x: 671.74506
     y: 0
     width: 1
     height: 1

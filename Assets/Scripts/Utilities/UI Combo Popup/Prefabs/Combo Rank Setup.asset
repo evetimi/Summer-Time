@@ -22,16 +22,25 @@ MonoBehaviour:
     - {fileID: 718018341980382624, guid: 146f12135ccfe8c4bb01730fe741922a, type: 3}
     - {fileID: 305137354500755195, guid: 9efe8279a8953734caca332a39420abf, type: 3}
     - {fileID: -1384797917546382507, guid: de54fa19270d67f439f6366f7749c014, type: 3}
-    comboTexts:
-    - Nice Nudge!
-    - Wave of Approval!
-    - Tidal Tolerance!
-    - Splendid Swell!
-    - Bravo, Buoy!
-    - Excellent Eddies!
-    - Marvelous Mariner!
-    - Fantastic Flows!
-    - Stellar Seafarer!
+    comboTextsAndVoices:
+    - text: Nice Nudge!
+      voice: {fileID: 8300000, guid: 9144d69640e986749ac93f764999cf0a, type: 3}
+    - text: Wave of Approval!
+      voice: {fileID: 8300000, guid: 5968bf8308445524fa78f5924da7213b, type: 3}
+    - text: Tidal Tolerance!
+      voice: {fileID: 8300000, guid: 0767b788cfa900346a5031ff47980a1f, type: 3}
+    - text: Splendid Swell!
+      voice: {fileID: 8300000, guid: d175367527ea5264eb810425931388d6, type: 3}
+    - text: Bravo, Buoy!
+      voice: {fileID: 8300000, guid: fff6433ca66e74241a251a4281d53dec, type: 3}
+    - text: Excellent Eddies!
+      voice: {fileID: 8300000, guid: de37551b3ac0b9b4cb261a0ec2f7d963, type: 3}
+    - text: Marvelous Mariner!
+      voice: {fileID: 8300000, guid: 1142195fe79aea9459826d057b39b81f, type: 3}
+    - text: Fantastic Flows!
+      voice: {fileID: 8300000, guid: e0823b48139e4d84c85b4450502810a6, type: 3}
+    - text: Stellar Seafarer!
+      voice: {fileID: 8300000, guid: 369b5cd45d0d6ca418d1efc673fcc8fb, type: 3}
     textColors:
     - {r: 0.8207547, g: 0.46180207, b: 0.40650585, a: 1}
     - {r: 0.12646852, g: 0.8240634, b: 0.9245283, a: 1}
@@ -43,10 +52,13 @@ MonoBehaviour:
     - {fileID: -6140356938470599367, guid: dad1a5e4ef2c42947b8cca29c8754891, type: 3}
     - {fileID: -4621689570493089423, guid: d5707010150438b4b8f248d0a10ec58c, type: 3}
     - {fileID: 1330873783663478824, guid: b81b42a2440d02446b12dea5a85b09ca, type: 3}
-    comboTexts:
-    - Congratitude Coral
-    - Sea-riffic Shout
-    - Tide-lightful Thrill
+    comboTextsAndVoices:
+    - text: Congratitude Coral!
+      voice: {fileID: 8300000, guid: cf540a7badff0b04894705a088fc51de, type: 3}
+    - text: Sea-riffic Shout!
+      voice: {fileID: 8300000, guid: f5dec0d11b157e04f92f9e23fa2d4e09, type: 3}
+    - text: Tide-lightful Thrill!
+      voice: {fileID: 8300000, guid: 2c23b2467f10f7f4da796982b6b4c478, type: 3}
     textColors:
     - {r: 0.5596298, g: 0.840098, b: 0.9056604, a: 1}
     - {r: 0.43867922, g: 1, b: 0.6604392, a: 1}
@@ -54,10 +66,13 @@ MonoBehaviour:
   - comboPopups:
     - {fileID: -5375190604349945349, guid: 1ec8d5f891e7a5b49b92d4755f95a1c8, type: 3}
     - {fileID: -1356957784554274782, guid: 410a5f90aa7f4ed4fa04917620e7a367, type: 3}
-    comboTexts:
-    - Splash-tacular
-    - Crested Cheers
-    - Aqua-mazing Applause
+    comboTextsAndVoices:
+    - text: Splash-tacular!
+      voice: {fileID: 8300000, guid: 8be0200d02f46564bbfece2a45aa47ca, type: 3}
+    - text: Crested Cheers!
+      voice: {fileID: 8300000, guid: 6c408c3414423d348bbd343ee7702928, type: 3}
+    - text: Aqua-mazing Applause
+      voice: {fileID: 8300000, guid: 257b148c0b37c9a48abc1a26f7daf481, type: 3}
     textColors:
     - {r: 0.3924691, g: 0.754717, b: 0.28123888, a: 1}
     - {r: 0.8207547, g: 0.5397334, b: 0.38327694, a: 1}
@@ -66,10 +81,13 @@ MonoBehaviour:
     - {fileID: -1384797917546382507, guid: de54fa19270d67f439f6366f7749c014, type: 3}
     - {fileID: 305137354500755195, guid: 9efe8279a8953734caca332a39420abf, type: 3}
     - {fileID: 718018341980382624, guid: 146f12135ccfe8c4bb01730fe741922a, type: 3}
-    comboTexts:
-    - Oceanic Ovation
-    - 'Congraturific Current '
-    - Seafoam Salutation
+    comboTextsAndVoices:
+    - text: Oceanic Ovation!
+      voice: {fileID: 8300000, guid: 95f72dc26bdd41443bf370587df7a055, type: 3}
+    - text: Congraturific Current!
+      voice: {fileID: 8300000, guid: 32ec4b8dd1eeeaa4491f9338958a7f01, type: 3}
+    - text: Seafoam Salutation!
+      voice: {fileID: 8300000, guid: 76120451894d3744b84dd9508f12e23a, type: 3}
     textColors:
     - {r: 0.9056604, g: 0.2947668, b: 0.2947668, a: 1}
     - {r: 0.2941177, g: 0.44885638, b: 0.90588236, a: 1}
@@ -78,13 +96,19 @@ MonoBehaviour:
     - {fileID: -1384797917546382507, guid: de54fa19270d67f439f6366f7749c014, type: 3}
     - {fileID: 305137354500755195, guid: 9efe8279a8953734caca332a39420abf, type: 3}
     - {fileID: 718018341980382624, guid: 146f12135ccfe8c4bb01730fe741922a, type: 3}
-    comboTexts:
-    - Mariner's Merrymaking
-    - Briny Bravo
-    - Aqua-accolade
-    - Congratu-wave Cascade
-    - Neptune's Nautical Nod
-    - Tidal Triumph
+    comboTextsAndVoices:
+    - text: Mariner's Merrymaking!
+      voice: {fileID: 8300000, guid: 010e1673628daf94ab1b917e6763195b, type: 3}
+    - text: Briny Bravo!
+      voice: {fileID: 8300000, guid: 1ad9d70324c70ed4d8bd296cef1fcb3c, type: 3}
+    - text: Aqua-accolade!
+      voice: {fileID: 8300000, guid: 2755e4c5021dd734284afa31661b8613, type: 3}
+    - text: Congratu-wave Cascade!
+      voice: {fileID: 8300000, guid: 28142588959171c4b96b8f2e92cacfe5, type: 3}
+    - text: Neptune's Nautical Nod!
+      voice: {fileID: 8300000, guid: 613836f558970db4496acdd4b5cbac71, type: 3}
+    - text: Tidal Triumph!
+      voice: {fileID: 8300000, guid: 7f4dfb7a1bc15224a86d8f14ace74cc1, type: 3}
     textColors:
     - {r: 0.5606058, g: 0.38416696, b: 0.9150943, a: 1}
     - {r: 0.8490566, g: 0.5807227, b: 0.7137487, a: 1}

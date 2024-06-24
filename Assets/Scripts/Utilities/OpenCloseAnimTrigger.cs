@@ -20,6 +20,8 @@ public class OpenCloseAnimTrigger : MonoBehaviour
         Bool
     }
 
+    public Animator Anim => _anim;
+
     private void Reset() {
         _anim = GetComponent<Animator>();
     }

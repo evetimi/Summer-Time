@@ -13,6 +13,7 @@ public class UIComboText : MonoBehaviour
     [SerializeField, Range(0f, 1f)] private float _textColorRandomRangeMax = 0.8f;
     [SerializeField] private string _comboPrefix = "Combo ";
     [SerializeField] private string _matchPrefix = "Match ";
+    [SerializeField] private RandomAudioSource _audioRandom;
 
     private void Reset() {
         _anim = GetComponent<Animator>();
@@ -39,6 +40,10 @@ public class UIComboText : MonoBehaviour
         if (_anim) {
             _anim.SetTrigger("pop");
         }
+
+        if (_audioRandom) {
+            _audioRandom.PlayRandom();
+        }
     }
 
     public void PopMatch(int match) {
@@ -51,6 +56,10 @@ public class UIComboText : MonoBehaviour
 
         if (_anim) {
             _anim.SetTrigger("pop");
+        }
+
+        if (_audioRandom) {
+            _audioRandom.PlayRandom();
         }
     }
 }

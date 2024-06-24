@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-[ExecuteInEditMode]
+// [ExecuteInEditMode]
 public class GridLayoutGroupValidation : UIBehaviour
 {
     public GridLayoutGroup layoutGroup;
@@ -15,12 +15,12 @@ public class GridLayoutGroupValidation : UIBehaviour
         base.Reset();
         layoutGroup = GetComponent<GridLayoutGroup>();
     }
-#endif
 
     protected override void OnValidate() {
         base.OnValidate();
         ValidateCellSize();
     }
+#endif
 
     protected override void OnRectTransformDimensionsChange() {
         ValidateCellSize();

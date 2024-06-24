@@ -16,6 +16,14 @@ public class UltimateContainer : MonoBehaviour
     [BoxGroup("Visual"), SerializeField] private Transform _emptyWavePosition;
     [BoxGroup("Visual"), SerializeField] private Transform _fullWavePosition;
 
+    [BoxGroup("Sound Effects"), SerializeField] private AudioSource _audioSource;
+    [BoxGroup("Sound Effects"), SerializeField] private RandomAudioSource _audioRandom;
+    [BoxGroup("Sound Effects"), SerializeField] private AudioSeamlessLoop _audioLoop;
+    [BoxGroup("Sound Effects"), SerializeField] private AudioClip _ultimateReadyClip;
+    [BoxGroup("Sound Effects"), SerializeField] private AudioClip _startUseUltimateClip;
+    [BoxGroup("Sound Effects"), SerializeField] private AudioClip _useUltimateClip;
+    [BoxGroup("Sound Effects"), SerializeField] private AudioClip _endUltimateClip;
+
     [BoxGroup("Events"), SerializeField] public UnityEvent OnUltimateUsed;
     [BoxGroup("Events"), SerializeField] public UnityEvent OnUltimateFinished;
 
@@ -65,9 +73,12 @@ public class UltimateContainer : MonoBehaviour
         }
 
         PlayEffect(_getEnergyEffect);
+        _audioRandom.PlayRandom();
+
         if (_currentEnergy > _requiredEnergy) {
             _currentEnergy = _requiredEnergy;
             PlayEffect(_readyEffect);
+            _audioLoop.StartPlaying(_ultimateReadyClip, _ultimateReadyClip);
         }
     }
 
@@ -75,6 +86,13 @@ public class UltimateContainer : MonoBehaviour
         if (_currentEnergy >= _requiredEnergy) {
             StopEffect(_readyEffect);
             PlayEffect(_useEffect);
+
+            _audioSource.clip = _startUseUltimateClip;
+            _audioSource.Play();
+
+            _audioLoop.StopImmediately();
+            _audioLoop.StartPlaying(_useUltimateClip, _useUltimateClip);
+
             _ultimateTimer = _ultimateDuration;
             IsUsingUltimate = true;
 
@@ -91,10 +109,20 @@ public class UltimateContainer : MonoBehaviour
         IsUsingUltimate = false;
         StopEffect(_useEffect);
 
+        _audioLoop.StopImmediately();
+        _audioLoop.StartPlaying(_endUltimateClip, null, true);
+
         if (Pointer.Instance) {
             Pointer.Instance.SetFinishGameItemOnHover(false);
         }
 
         OnUltimateFinished?.Invoke();
+    }
+
+    public void StopAllEffect() {
+        StopEffect(_getEnergyEffect);
+        StopEffect(_readyEffect);
+        StopEffect(_useEffect);
+        _audioLoop.SetEndedClip(_endUltimateClip);
     }
 }

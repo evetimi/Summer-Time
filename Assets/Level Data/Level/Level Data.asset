@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 983a42cd24f55fb459812d777b10f58c, type: 3}
   m_Name: Level Data
   m_EditorClassIdentifier: 
-  _timer: 10
-  _eventHappensAt: -1
-  _scoreObjective: 2000
+  _timer: 90
+  _eventHappensAt: 60
+  _scoreObjective: 6000

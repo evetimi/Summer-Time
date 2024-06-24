@@ -9,6 +9,19 @@ using UnityEngine.UI;
 
 public class GameUI : MonoBehaviourSingleton<GameUI>
 {
+    [BoxGroup("Musics"), SerializeField] private AudioSource _musicAudioSource;
+    [BoxGroup("Musics"), SerializeField] private AudioClip _victoryClip;
+    [BoxGroup("Musics"), SerializeField] private AudioClip _failClip;
+
+    [BoxGroup("Sound Effects"), SerializeField] private AudioSource _audioSource;
+    [BoxGroup("Sound Effects"), SerializeField] private AudioClip _timesUpClip;
+    [BoxGroup("Sound Effects"), SerializeField] private AudioClip _scoringClip;
+    [BoxGroup("Sound Effects"), SerializeField] private AudioClip _stampClip;
+
+    [BoxGroup("Game Buttons"), SerializeField] private Button[] _gameButtons;
+
+    [BoxGroup("Pause Game UI"), SerializeField] private Transform _pauseGameUI;
+
     [BoxGroup("Finish Game UI"), SerializeField] private OpenCloseAnimTrigger _finishGameUI;
     [BoxGroup("Finish Game UI"), SerializeField] private Animator _timeOutAnim;
     [BoxGroup("Finish Game UI"), SerializeField] private float _timeOutDuration = 1f;
@@ -53,8 +66,19 @@ public class GameUI : MonoBehaviourSingleton<GameUI>
     private bool _finishMark;
     private UIGameItemResult[] _gameItemResults;
 
+    private void PlayAudio(AudioSource source, AudioClip clip) {
+        if (source && clip) {
+            source.clip = clip;
+            source.Play();
+        }
+    }
+
     public void OnGameFinish(bool isWin) {
         _isWin = isWin;
+
+        foreach (var button in _gameButtons) {
+            button.interactable = false;
+        }
 
         _forwardButton.interactable = _isWin;
         _scoreBackgroundCanvasGroup.alpha = 0f;
@@ -68,6 +92,8 @@ public class GameUI : MonoBehaviourSingleton<GameUI>
 
     private IEnumerator GameFinishCoroutine() {
         _timeOutAnim.SetTrigger("open");
+        _musicAudioSource.Stop();
+        PlayAudio(_audioSource, _timesUpClip);
 
         yield return new WaitForSeconds(_timeOutDuration);
 
@@ -135,6 +161,8 @@ public class GameUI : MonoBehaviourSingleton<GameUI>
 
             text.text = current.ToString();
 
+            PlayAudio(_audioSource, _scoringClip);
+
             yield return new WaitForSeconds(delay);
         } while (current < target);
     }
@@ -145,7 +173,22 @@ public class GameUI : MonoBehaviourSingleton<GameUI>
 
         _objectiveText.text = MainGameplayController.Instance.ScoreObjective.ToString();
 
-        yield return StartCoroutine(IncreaseAmountCoroutine(_scoreText, 0, MainGameplayController.Instance.CurrentScore, _scoreIncreaseRate, _scoreIncreaseDelay));
+        //yield return StartCoroutine(IncreaseAmountCoroutine(_scoreText, 0, MainGameplayController.Instance.CurrentScore, _scoreIncreaseRate, _scoreIncreaseDelay));
+        int current = 0;
+        int target = MainGameplayController.Instance.CurrentScore;
+        int increaseRate = _scoreIncreaseRate;
+        do {
+            current += increaseRate;
+            if (current > target) {
+                current = target;
+            }
+
+            _scoreText.text = current.ToString();
+
+            PlayAudio(_audioSource, _scoringClip);
+
+            yield return new WaitForSeconds(_scoreIncreaseDelay);
+        } while (current < target);
 
         yield return _scoreBackgroundCanvasGroup.DOFade(1f, _scoreBackgroundFadeInDuration).SetEase(Ease.Linear).WaitForCompletion();
 
@@ -155,12 +198,14 @@ public class GameUI : MonoBehaviourSingleton<GameUI>
     private void ShowScoreFinish() {
         _objectiveText.text = MainGameplayController.Instance.ScoreObjective.ToString();
         _scoreText.text = MainGameplayController.Instance.CurrentScore.ToString();
+        _scoreBackgroundCanvasGroup.alpha = 1f;
     }
 
     private IEnumerator StampCoroutine() {
         _finishMark = false;
         yield return new WaitForSeconds(_stampStartDelay);
 
+        PlayAudio(_audioSource, _stampClip);
         _stampAnim.SetTrigger("active");
 
         yield return new WaitForSeconds(_stampEndDelay);
@@ -169,6 +214,7 @@ public class GameUI : MonoBehaviourSingleton<GameUI>
 
     private void StampFinish() {
         _stampAnim.SetTrigger("finish");
+        PlayAudio(_musicAudioSource, _isWin ? _victoryClip : _failClip);
     }
 
     private IEnumerator LeftPanelCoroutine() {
@@ -236,5 +282,32 @@ public class GameUI : MonoBehaviourSingleton<GameUI>
             _gameItemResults[i].IconImage.sprite = itemsCollected[i].itemSprite;
             _gameItemResults[i].Text.text = itemsCollected[i].amount.ToString();
         }
+    }
+
+    public void PauseGame() {
+        MainGameplayController.Instance.PauseGame();
+        _pauseGameUI.gameObject.SetActive(true);
+    }
+
+    public void ResumeGame() {
+        MainGameplayController.Instance.ResumeGame();
+        _pauseGameUI.gameObject.SetActive(false);
+    }
+
+    public void OpenSettings() {
+        SettingsController.Instance.Open();
+    }
+
+    public void BackToMainMenu() {
+        MainMenu.goDirectlyToGameBoardView = true;
+        SceneController.Instance.ChangeMainMenuScene();
+    }
+
+    public void ReplayLevel() {
+        SceneController.Instance.ChangeCurrentScene();
+    }
+
+    public void NextLevel() {
+        SceneController.Instance.ChangeGameplayScene();
     }
 }

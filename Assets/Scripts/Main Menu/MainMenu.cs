@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class MainMenu : MonoBehaviour
 {
+    public static bool goDirectlyToGameBoardView;
+
     [BoxGroup("Start Spawn"), SerializeField] private float _spawnDelay = 0.05f;
     [BoxGroup("Start Spawn"), SerializeField] private int _spawnAmountOnEachDelay = 5;
     [BoxGroup("Start Spawn"), SerializeField] private GameObject[] _startSpawnRandomly;
@@ -69,6 +71,14 @@ public class MainMenu : MonoBehaviour
     private IEnumerator StartMenuCoroutine() {
         SetActiveFalseAll();
 
+        if (goDirectlyToGameBoardView) {
+            foreach (GameObject objectSpawn in _startSpawnRandomly) {
+                objectSpawn.SetActive(true);
+            }
+
+            yield break;
+        }
+
         int rand = Random.Range(0, _startSpawnRandomly.Length);
         int index = rand;
         int currentAmount = 0;
@@ -126,7 +136,19 @@ public class MainMenu : MonoBehaviour
         }
     }
 
+    public void GoDirectlyToGamePanel() {
+        SetTitle(false, true);
+        //SetChainButtons(false);
+        SetGamePanel(true);
+    }
+
     private IEnumerator DelaySpawnCanvasCoroutine() {
+        if (goDirectlyToGameBoardView) {
+            _canvas.SetActive(true);
+            GoDirectlyToGamePanel();
+            yield break;
+        }
+
         _canvas.SetActive(false);
 
         yield return new WaitForSeconds(_delaySpawnCanvas);
@@ -191,12 +213,16 @@ public class MainMenu : MonoBehaviour
         }
     }
 
-    public void SetTitle(bool enabled) {
+    public void SetTitle(bool enabled, bool immediateClose = false) {
         if (enabled) {
             _boardAnimTrigger.Open();
             _tapNextAnimTrigger.Open();
         } else {
-            _boardAnimTrigger.Close();
+            if (immediateClose) {
+                _boardAnimTrigger.Anim.SetTrigger("immediateClose");
+            } else {
+                _boardAnimTrigger.Close();
+            }
             _tapNextAnimTrigger.Close();
         }
     }
@@ -237,5 +263,13 @@ public class MainMenu : MonoBehaviour
 
     public void OpenShop() {
         ShopMenu.Instance.Open();
+    }
+
+    public void ChangeGameScene() {
+        SceneController.Instance.ChangeGameplayScene();
+    }
+
+    public void QuitGame() {
+        Application.Quit();
     }
 }

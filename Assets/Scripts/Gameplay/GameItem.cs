@@ -27,6 +27,8 @@ public class GameItem : MonoBehaviour
     [BoxGroup("Setup"), SerializeField] private float _requiredDragLengthToMove = 10f;
     [BoxGroup("Setup"), SerializeField, RequiredIn(PrefabKind.InstanceInPrefab)] private ParticleSystem _finishEffectPrefab;
 
+    [BoxGroup("Sound Effects"), SerializeField] private RandomAudioSource _audioRandom;
+
     [BoxGroup("Runtime"), SerializeField, Tooltip("If Object ID = -1, it is not a normal item")] private int _itemId = -1;
     [BoxGroup("Runtime"), SerializeField] private GameItemContainer _registeredContainer;
     [BoxGroup("Runtime"), SerializeField] private Vector2Int _gridPosition;
@@ -143,6 +145,9 @@ public class GameItem : MonoBehaviour
         }
 
         _registeredContainer.ContainItem = null;
+
+        _audioRandom.transform.SetParent(null, true);
+        _audioRandom.PlayRandom();
 
         Destroy(gameObject);
     }

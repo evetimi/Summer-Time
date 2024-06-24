@@ -11,8 +11,14 @@ public class ComboRankSetup : ScriptableObject
     [System.Serializable]
     public class ComboRankList {
         public UISpeechBubble[] comboPopups;
-        public string[] comboTexts;
+        public TextAndVoice[] comboTextsAndVoices;
         [ListDrawerSettings(AddCopiesLastElement = true)] public Color[] textColors;
+
+        [System.Serializable]
+        public struct TextAndVoice {
+            public string text;
+            public AudioClip voice;
+        }
     }
 
     public bool IsComboRankExisted(int comboRankIndex) {

@@ -408,7 +408,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 7974978814855253953}
+  m_TargetGraphic: {fileID: 8199858370107569616}
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
@@ -654,7 +654,7 @@ MonoBehaviour:
   m_Texture: {fileID: 2800000, guid: bd10f56e07898fe43a834d3a55216cf8, type: 3}
   m_UVRect:
     serializedVersion: 2
-    x: 1582.047
+    x: 1582.3419
     y: 0
     width: 1
     height: 1

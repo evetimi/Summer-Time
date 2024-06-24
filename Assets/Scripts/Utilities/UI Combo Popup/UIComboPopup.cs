@@ -6,6 +6,7 @@ public class UIComboPopup : MonoBehaviour
 {
     [SerializeField] private ComboRankSetup _comboRankSetup;
     [SerializeField] private bool _destroyPreviousOnNewSpawn;
+    [SerializeField] private AudioSource _voiceSource;
 
     private UISpeechBubble _previousComboSpeechBubble;
 
@@ -14,7 +15,7 @@ public class UIComboPopup : MonoBehaviour
             return;
         }
         
-        if (comboRank.comboPopups == null || comboRank.comboPopups.Length == 0 || comboRank.comboTexts == null || comboRank.comboTexts.Length == 0) {
+        if (comboRank.comboPopups == null || comboRank.comboPopups.Length == 0 || comboRank.comboTextsAndVoices == null || comboRank.comboTextsAndVoices.Length == 0) {
             return;
         }
 
@@ -23,10 +24,18 @@ public class UIComboPopup : MonoBehaviour
         }
 
         UISpeechBubble comboPopup = comboRank.comboPopups[Random.Range(0, comboRank.comboPopups.Length)];
-        string comboText = comboRank.comboTexts[Random.Range(0, comboRank.comboTexts.Length)];
+        var comboTextsAndVoices = comboRank.comboTextsAndVoices[Random.Range(0, comboRank.comboTextsAndVoices.Length)];
         Color textColor = comboRank.textColors[Random.Range(0, comboRank.textColors.Length)];
 
         _previousComboSpeechBubble = Instantiate(comboPopup, transform);
-        _previousComboSpeechBubble.SetText(comboText, textColor);
+        _previousComboSpeechBubble.SetText(comboTextsAndVoices.text, textColor);
+        Speak(_voiceSource, comboTextsAndVoices.voice);
+    }
+
+    private void Speak(AudioSource source, AudioClip clip) {
+        if (source && clip) {
+            source.clip = clip;
+            source.Play();
+        }
     }
 }

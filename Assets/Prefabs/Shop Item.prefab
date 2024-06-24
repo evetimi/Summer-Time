@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 2942885475758747593}
   m_Layer: 5
   m_Name: Shop Item
-  m_TagString: Untagged
+  m_TagString: Clicky Button
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

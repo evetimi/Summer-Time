@@ -10,6 +10,8 @@ public class MainGameplayController : MonoBehaviourSingleton<MainGameplayControl
     [BoxGroup("TEST"), SerializeField] private bool _enableTest;
     [BoxGroup("TEST"), SerializeField, EnableIf(nameof(_enableTest))] private LevelData _testLevelData;
 
+    [SerializeField] private float _delayStartGame = 1.5f;
+
     [TabGroup("Prefabs"), SerializeField] private GameItem _itemPrefab;
     [TabGroup("Prefabs"), SerializeField] private GameSkin _usedGameSkin;
     [TabGroup("Prefabs"), SerializeField] private GameItemContainer[] _topBoxes;
@@ -22,6 +24,7 @@ public class MainGameplayController : MonoBehaviourSingleton<MainGameplayControl
     [TabGroup("Energy Path"), SerializeField] private Transform _energyPathEndPoint;
 
     [TabGroup("Gear"), SerializeField] private float _rollSpeed = 20f;
+    [TabGroup("Gear"), SerializeField] private AudioSource _gearRollAudioSource;
     [TabGroup("Gear"), SerializeField] private RectTransform[] _gearsRollLeft;
     [TabGroup("Gear"), SerializeField] private RectTransform[] _gearsRollRight;
 
@@ -130,6 +133,10 @@ public class MainGameplayController : MonoBehaviourSingleton<MainGameplayControl
             foreach (var gear in _gearsRollRight) {
                 gear.Rotate(Vector3.forward, -_rollSpeed * Time.deltaTime);
             }
+
+            if (_gearRollAudioSource) {
+                _gearRollAudioSource.Play();
+            }
         }
     }
 
@@ -166,6 +173,8 @@ public class MainGameplayController : MonoBehaviourSingleton<MainGameplayControl
     }
 
     private IEnumerator GenerateBoard() {
+        IsPlaying = false;
+
         yield return null;
 
         if (_enableTest) {
@@ -183,13 +192,15 @@ public class MainGameplayController : MonoBehaviourSingleton<MainGameplayControl
 
         CurrentScore = 0;
 
+        OnGenerateLevelCompleted?.Invoke(this);
+
+        yield return new WaitForSeconds(_delayStartGame);
+
         foreach (var topBox in _topBoxes) {
             GenerateNewGameItem(topBox);
         }
 
         IsPlaying = true;
-
-        OnGenerateLevelCompleted?.Invoke(this);
     }
 
     private void GenerateGameItemContainer() {
@@ -446,5 +457,13 @@ public class MainGameplayController : MonoBehaviourSingleton<MainGameplayControl
     public void UseUltimateIncrease() {
         Debug.Log("Who called me?");
         NumberOfUltimateUsed++;
+    }
+
+    public void PauseGame() {
+        IsPlaying = false;
+    }
+
+    public void ResumeGame() {
+        IsPlaying = true;
     }
 }
